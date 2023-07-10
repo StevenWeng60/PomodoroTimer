@@ -1,0 +1,74 @@
+.bgc {
+  background: lightpink;
+}
+
+.timer {
+  height: 450px;
+  width: 450px;
+}
+
+.timertime {
+  font-size: 3em;
+}
+
+.maxheight {
+  height: 100%;
+}
+
+.full {
+  height: 100vh;
+  width: 100vw;
+}
+
+.center-flex {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fixedNav {
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  font-size: 1.5em;
+  text-decoration: none;
+}
+
+.truly-rounded {
+  border-radius: 50% !important;
+}
+
+.hoverable:hover {
+  cursor:pointer;
+}
+
+.stats{
+  margin-top: 5em;
+  height: 50%;
+  border: 1px solid black;
+}
+
+/* .spacebet {
+  display: flex;
+  flex-direction:column;
+  gap: 5em;
+} */
+
+.active {
+  background:#40E0D0;
+  color: black;
+  border-color:#40E0D0;
+}
+
+.shortInput {
+  width: 2em;
+}
+
+.completed {
+  background: grey;
+  border-color: black;
+}
+
+.hidden {
+  visibility: hidden;
+}

@@ -1,0 +1,64 @@
+<div class="full">
+  <div class="container-fluid maxheight">
+    <a class="fixedNav" (click)="resetToPomodoro()" routerLink="/home">Home</a>
+    <div class="row maxheight">
+      <div class="col center-flex flex-column">
+        <span class="badge text-primary" 
+        [ngStyle] = "{
+          fontSize: '3em'
+        }">Current: {{stepLabel[stepNumber - 1]}}</span>
+        <div class="card timer truly-rounded center-flex border border-primary hoverable" 
+        [style.background] = "!timerStarted ? 'gray' : (time === 0 ? 'red' : (timerActive ? 'lightblue' : 'pink'))" (click) = "timerClick()">
+          <div class="timertime">{{time | timeFormat}}</div>
+        </div>
+        <div class="container center-flex mt-5"
+        >
+          <div class="row gap-2" [ngStyle] = "{
+          fontSize: '4em'
+          }">
+            <div class="btn btn-secondary" [ngStyle] = "{
+            fontSize: '0.5em'
+          }">
+            Set Time: 
+            <input type="number" size="1" maxlength="2" class="shortInput" min="0" max="59" [(ngModel)]="newTimerMinutes" [value]="newTimerMinutes" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+            :
+            <input type="number" size="1" maxlength="2" class="shortInput" min="0" max="59" [value]="newTimerSeconds"  [(ngModel)] = "newTimerSeconds" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+            </div>
+            <div class="btn btn-secondary" [ngStyle] = "{
+            fontSize: '0.5em' 
+          }" (click) = "clickSetBtn()">Set</div>
+            <div class="btn btn-secondary" [ngStyle] = "{
+            fontSize: '0.5em'
+          }" (click)="(resetToPomodoro())">Pomodoro</div>
+            <button class="btn btn-secondary" [ngStyle] = "{
+            fontSize: '0.5em'
+          }" [disabled]="time !== 0" (click)="clickNext()">Next</button>
+          </div>
+        </div>
+      </div>
+      <div class="col spacebet">
+        <div class="jumbotron jumbotron-fluid">
+          <div class="container">
+            <h1 class="display-4">Pomodoro {{stepNumber}}/8</h1>
+            <ul class="list-group">
+              <li class="list-group-item" [class.active]="stepNumber === 1" [class.completed]="stepNumber > 1">Pomodoro 1</li>
+              <li class="list-group-item" [class.active]="stepNumber === 2" [class.completed]="stepNumber > 2">Break</li>
+              <li class="list-group-item" [class.active]="stepNumber === 3" [class.completed]="stepNumber > 3">Pomodoro 2</li>
+              <li class="list-group-item" [class.active]="stepNumber === 4" [class.completed]="stepNumber > 4">Break</li>
+              <li class="list-group-item" [class.active]="stepNumber === 5" [class.completed]="stepNumber > 5">Pomodoro 3</li>
+              <li class="list-group-item" [class.active]="stepNumber === 6" [class.completed]="stepNumber > 6">Break</li>
+              <li class="list-group-item" [class.active]="stepNumber === 7" [class.completed]="stepNumber > 7">Pomodoro 4</li>
+              <li class="list-group-item" [class.active]="stepNumber === 8" [class.completed]="stepNumber > 8">Long Break</li>
+            </ul>
+          </div>
+          <div class="container stats rounded-1">
+            <h1 class="hoverable" (click)="hideStats = !hideStats">Stats (Click to {{  hideStats ? 'Show' : 'Hide'}})</h1>
+            <h4 [class.hidden]="hideStats">Cycles completed: {{cycleNumber}}</h4>
+            <h4 [class.hidden]="hideStats">Total time: {{totalTime| timeFormat}}</h4>
+            <h4 [class.hidden]="hideStats">Total study time: {{totalStudyTime | timeFormat}}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

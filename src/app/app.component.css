@@ -1,0 +1,11 @@
+.bgc {
+  background:lightpink;
+}
+
+.hoverable:hover {
+  cursor:pointer;
+}
+
+.addGap {
+  gap: 1rem;
+}
