@@ -9,3 +9,4 @@ Features:
 - Ability to start, stop, pause, and reset timer
 - Keeps track of the total time spent on studying
 - Visualization labels that indicate the current step within the full cycle
+- Timer rings once the time hits 0
