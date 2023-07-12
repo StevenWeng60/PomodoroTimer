@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { PomodoroService } from '../pomodoro.service';
 import { Observable, Subscription } from 'rxjs'
 
@@ -64,12 +64,19 @@ export class PomodoroComponent {
       this.subscription = observable?.subscribe({
         next: (time: number) => {
           this.time = time;
+
+          // Increment study time during pomodoro sessions
           if (this.stepNumber % 2 === 1){
             this.pomodoroTimer.incrementStudyTime();
           }
           this.pomodoroTimer.incrementTotalTime();
           this.totalStudyTime = this.pomodoroTimer.getTotalStudyTime();
           this.totalTime = this.pomodoroTimer.getTotalTime();
+
+          // if the time is equal to 0 play audio
+          if (this.time === 0){
+            this.playAudio();
+          }
         }
       })
     }
@@ -130,6 +137,14 @@ export class PomodoroComponent {
     console.log(this.time);
     this.timerActive = this.pomodoroTimer.getTimerActive();
     this.timerStarted = this.pomodoroTimer.getTimerStarted();
+  }
+
+  @ViewChild('audioElement') audioElement?: ElementRef;
+
+  playAudio(){
+    const audio = this.audioElement?.nativeElement;
+    audio.play();
+    console.log("Hello world")
   }
 
 }
