@@ -26,6 +26,9 @@ export class PomodoroComponent {
 
   // enum for current label
   stepLabel: string[];
+
+  // This is for a special case
+  firstTimeTimerFinished: boolean;
   
   constructor(private pomodoroTimer: PomodoroService){
     this.time = this.pomodoroTimer.getTime();
@@ -48,6 +51,7 @@ export class PomodoroComponent {
       "Long Break",
     ]
     this.hideStats = false;
+    this.firstTimeTimerFinished = false;
   }
   
   timerClick(): void {
@@ -64,14 +68,27 @@ export class PomodoroComponent {
       this.subscription = observable?.subscribe({
         next: (time: number) => {
           this.time = time;
-
-          // Increment study time during pomodoro sessions
-          if (this.stepNumber % 2 === 1){
-            this.pomodoroTimer.incrementStudyTime();
+          if (this.time !== 0){
+            // Increment study time during pomodoro sessions
+            if (this.stepNumber % 2 === 1){
+              this.pomodoroTimer.incrementStudyTime();
+            }
+            this.pomodoroTimer.incrementTotalTime();
+            this.totalStudyTime = this.pomodoroTimer.getTotalStudyTime();
+            this.totalTime = this.pomodoroTimer.getTotalTime();
           }
-          this.pomodoroTimer.incrementTotalTime();
-          this.totalStudyTime = this.pomodoroTimer.getTotalStudyTime();
-          this.totalTime = this.pomodoroTimer.getTotalTime();
+          else if (!this.firstTimeTimerFinished){
+            // Increment study time during pomodoro sessions
+            if (this.stepNumber % 2 === 1){
+              this.pomodoroTimer.incrementStudyTime();
+            }
+            this.pomodoroTimer.incrementTotalTime();
+            this.totalStudyTime = this.pomodoroTimer.getTotalStudyTime();
+            this.totalTime = this.pomodoroTimer.getTotalTime();
+
+            // Set variable to true so that the special case won't happen again
+            this.firstTimeTimerFinished = true;
+          }
 
           // if the time is equal to 0 play audio
           if (this.time === 0){
@@ -114,6 +131,9 @@ export class PomodoroComponent {
       this.timerActive = false;
       this.timerStarted = this.pomodoroTimer.getTimerStarted();
     }
+
+    // Special case
+    this.firstTimeTimerFinished = false;
   }
 
   resetToPomodoro(): void {
@@ -134,9 +154,10 @@ export class PomodoroComponent {
     this.newTimerMinutes = this.pomodoroTimer.getTimeMinutes();
     this.newTimerSeconds = this.pomodoroTimer.getTimeSeconds();
     this.time = this.pomodoroTimer.getTime();
-    console.log(this.time);
     this.timerActive = this.pomodoroTimer.getTimerActive();
     this.timerStarted = this.pomodoroTimer.getTimerStarted();
+    // Special case
+    this.firstTimeTimerFinished = false;
   }
 
   @ViewChild('audioElement') audioElement?: ElementRef;
